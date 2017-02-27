@@ -10,26 +10,28 @@ var randCity = "";
 randNumber = Math.floor(Math.random()*arr.length);
 randCity = arr[randNumber];
 
-    // assign noOfTrials = cityName.length+2
-    trials = randCity.length + 2;
-    var cityDOM = document.getElementById('boxes');
+// assign no of trials = cityName.length+2
+trials = randCity.length + 2;
+var cityDOM = document.getElementById('boxes');
 
+function generateBoxes(){
     // create boxes equal to the length of the city name and insert city name characters in each box
-    for(i=0; i<=randCity.length;i++){
+    for(i=0; i<=randCity.length-1;i++){
       var box = document.createElement('div');
       box.classList.add('box');
       cityDOM.append(box);
-
-
+      var kbdElement = document.createElement('kbd');
+      box.append(randCity[i], kbdElement);
     }
+
+    return cityDOM;
+}
+
 
     // while(trials >= 0){
     //
     //
     // }
-
-
-
 
 
 //Randomly show few characters of the city name
@@ -43,3 +45,11 @@ randCity = arr[randNumber];
       //Else
         //compare with corresponding character in the city name if there is a match, play 'openhat' sound and show the character in the box
         //else play 'kick' sound and reduce noOfTrials by 1
+
+window.onload = function(){
+  generateBoxes();
+  console.log(cityDOM);
+
+
+
+}
