@@ -5,12 +5,14 @@ var arr = [ "Kabul","Tirana","Algiers","Andorra","Luanda","Yerevan","Canberra","
 var randCity = "";
 var kbdElement;
 var cityDOM = document.getElementById('boxes');
+var goButton = document.getElementById('goButton');
+var resetButton = document.getElementById('resetButton');
 
 //Functions
 function resetBoxes(){
     for(let i=0;i<=randCity.length-1;i++){
       cityDOM.childNodes[i].textContent = "";
-      cityDOM.childNodes[i].classList.remove('correct');
+      cityDOM.childNodes[i].classList.remove('correct', 'wrong');
     }//for-loop
 }//resetBoxes
 
@@ -75,6 +77,9 @@ window.onload = function(){
 
     // Assign no of trials = cityName.length+2
     trials = randCity.length + 2;
+
+    goButton.addEventListener('click', generateBoxes);
+    resetButton.addEventListener('click', resetBoxes);
 
     //Capture users keyboard press and compare with first letter of randCity
     this.addEventListener('keydown', function(e){
