@@ -1,36 +1,27 @@
-// Define variables: trials, count = 0, array of cities, etc.
+// Define variables
 var trials;
-var count = 0;
 var randNumber;
-var arr = [ "Kabul","Tirana","Algiers","Andorra","Luanda","Yerevan","Canberra","Vienna","Baku","Nassau", "Lagos", "Abuja", "Kano", "Zaria", "Warri", "Minna"];
-var oldArr = [];
-var usedArr = [];
+var arr = [ "Kabul","Tirana","Algiers","Andorra","Luanda","Yerevan","Canberra","Vienna","Baku","Nassau", "Lagos", "Abuja", "Kano", "Zaria", "Warri", "Minna", "Saminaka", "Kauru", "Malunfashi", "Ife", "Ibadan"];
 var randCity = "";
 var kbdElement;
 var cityDOM = document.getElementById('boxes');
-var rButton = document.getElementById('rButton');
-var gButton = document.getElementById('gButton');
 
-
-
-// Assign no of trials = cityName.length+2
-trials = randCity.length + 2;
-
+//Functions
 function resetBoxes(){
     for(let i=0;i<=randCity.length-1;i++){
       cityDOM.childNodes[i].textContent = "";
-    }
-}
+      cityDOM.childNodes[i].classList.remove('correct');
+    }//for-loop
+}//resetBoxes
 
 function removeBoxes(){
-  //Remove existing boxes from the DOM boxes if any
+  //Remove existing boxes from the DOM if any
   while (cityDOM.hasChildNodes()) {
-    cityDOM.removeChild(cityDOM.lastChild);
+    cityDOM.removeChild(cityDOM.firstChild);
   }
 }
 
 function generateBoxes(){
-
     removeBoxes();
 
     //Ramdomly pick a city from array
@@ -48,10 +39,22 @@ function generateBoxes(){
     }
 }
 
-    // while(trials >= 0){
-    //
-    //
-    // }
+function matchFound(j){
+  openhat.currentTime = 0;
+  openhat.play();
+  cityDOM.childNodes[j].classList.add('correct');
+}
+
+function noMatch(j){
+  kick.currentTime = 0;
+  kick.play();
+  cityDOM.childNodes[j].classList.add('wrong');
+}
+
+
+        //if there is a match, animate the box with green border and make 'openhat' sound
+        //else animate box with red border and make a 'kick' sound.
+
 
 
 //Randomly show few characters of the city name
@@ -67,7 +70,50 @@ function generateBoxes(){
         //else play 'kick' sound and reduce noOfTrials by 1
 
 window.onload = function(){
-  //let resetButton = document.getElementById('reset').addEventListener('click', resetBoxes());
-  generateBoxes();
 
-}
+    generateBoxes();
+
+    // Assign no of trials = cityName.length+2
+    trials = randCity.length + 2;
+
+    //Capture users keyboard press and compare with first letter of randCity
+    this.addEventListener('keydown', function(e){
+        const kick = document.getElementById('kick');
+        const openhat = document.getElementById('openhat');
+
+        console.log(cityDOM.firstChild);
+        console.log(e);
+        e.stopPropagation();
+
+        // Subtract trials by 1
+        trials--;
+        //Create an array of characters from random city name
+        var cityArr = randCity.split('');
+
+        // while (trials>0) {
+        //       for (let j = 0; j < randCity.length; j++) {
+        //               if(e.key.toUpperCase() === cityArr[j].toUpperCase()){
+        //                   matchFound(j);
+        //               }else{
+        //                   noMatch(j);
+        //               }
+        //       }//for-loop
+        //   trials--;
+        // }//while-loop
+
+        while (trials>0) {
+              for (let j = 0; j < randCity.length; j++) {
+                   (function(x){
+                     console.log(trials);
+                      if(e.key.toUpperCase() === cityArr[x].toUpperCase()){
+                        matchFound(x);
+                      }else{
+                          noMatch(x);
+                      }
+                    })(j);
+              }//for-loop
+          trials--;
+        }//while-loop
+  });//Event Listener
+
+}//window onload
